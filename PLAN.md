@@ -15,3 +15,12 @@ Introducing the **Ductic Monitoring and Productivity Web Application** which is 
 - Unlike the previous manual system where team members where constrained with the size of the sticky note to only write down summarized details about the task and in a very unreadable small font-size inorder to squeeze everything on this small sheet of paper, the new modern digital tool provides a very clean and beautiful interface where not only can one note down a task but also enjoy the flexibility to easily edit the declared task, write a brief discription of this task to make it more understandable for your employee, add due dates when the task is supposed to be complete and so much more relevant information all displayed in a very nice modal window that can either show a brief or a detailed display with all the information about the task assigned in a very clean and easy to read font
 
 - The new digital system provides you with a feature to `drag and drop` a task from one column to another forexample a member can easily drag a task card from the **"In progress"** column and drop it to the **"completed"** column which makes updating progress on the task very simple and instant and also since the tasks recorded on this application get directly stored on an online storage server like 'google cloud', that also removes the risk of losing important company data about the project progress and makes that data easy to access anywhere and anytime.
+
+## Core features (MVP)
+
+The Ductic Monitoring and Productivity web application is a fully intergrated sotfware system that can continously scale with time to adopt so many important features like intergration with google calenders and other platforms like slack but for the limited time available, let's focus first on the crucial features that the agency needs shift assingmnents and workflows to the new digital system and later add more features to make monitoring workflows even easier.
+
+### Must have feature
+
+- The digital tool should have a feature to easily record a task and provide a brief discription about the task as well.
+- The digital tool should be able to tick a task completed or to lebel a task "In progress" incase the activity is ongoing.
