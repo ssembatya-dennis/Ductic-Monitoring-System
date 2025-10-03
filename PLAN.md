@@ -26,3 +26,34 @@ This solution is easy to use and to adopt to very quickly however it's really ha
 - Real-Time Access: Tasks are accessible anywhere, supporting remote work and providing instant status updates
 - Detailed Task Information: Each "sticky note" (ticket) can hold attachments, comments, checklists, due dates, and activity history—details impossible on a physical note.
 - Familiar Visual Layout: The drag-and-drop card interface is a direct digital translation of sticky notes, making the transition intuitive for your team.
+
+## Digital Kanban Software (Ductic Monitoring System).
+
+## Must haves
+
+- a board with both the navigation panel and content section should be displayed after a loading screen without user authentication for now
+
+- a navigation pannel, that routes to different sections of the dashboard e.g (Home, Tasks, Inbox)
+- a modal on the board that when triggered it opens a form to declare and fill in information about the task ticket
+
+- a user must be able to change the color of the ticket to imitate the "sticky notes" nature
+
+- the Tasks sub-route should be divided into three column (i.e "Tasks for Today", "In Progress", "Successfully Accomplished")
+
+- a ticket must be able to change status (i.e. 'in-progress', 'completed, 'assigned')
+
+- a user must be able to tick on the ticket card created as completed and it automatically changes status
+
+## Good to haves
+
+- a ticket must be easy to drag and drop from one column to another and immediatly changes status according to the column in which it's placed (i.e "In progress", "Completed)
+
+- tickets should be displayed in the order of creation where the last ticket to be created should appear first and the first ones appear last at the bottom unless the user manually alters the arrangment and moves a ticket to a different position.
+
+- a ticket should be able to disappear on the board when ticked done/complete
+
+- a user should be able to delete an already assigned ticket.
+
+- a user should be able to edit contents of an already declared ticket.
+
+- a visual animation should be rendered on the entire screen upon successfully completing all ticketes assigned in the day to give a user the sense of accomplishment.
