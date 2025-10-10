@@ -201,3 +201,13 @@ export default class KanbanAPI {
 - So again in the View layer, we add another file `Ticket.js` and create the `class Ticket {}` class that defines the structure of the ticket just the way we did with the column. This approach is very important to create stand-alone re-usable components, separate concerns and as well as simply logic blocks for every individual component.
 
 - Using the available API methods like update, delete e.t.c, we add functionality to the `class Ticket {}` class to allow the user edit contents of an already created ticket card or delete entirely and existing ticket card entirely.
+
+### DRAG and DROP
+
+- Alright the first step to ensure that the **drag and drop** is working perfectly fine as expected is going in the `class Ticket {}` class and add a new event listener which is the "dragstart" event which is basically one way we can communicate between two elements that are being dragged and dropped as specified in _"drag and drop"_ API.
+
+- Create a new file `DropZone.js file` and then add a new class `class DropZone {}` which is actually responsible to ensure our drag and drop is working as expected.
+
+- In this class they're methods like `createDropZone() {}` which is responsible for creating the HTML structure of the "dropzone" node container that I did actually show you before in our HTML structure.
+
+- Then we finally add all the logic required to implement the drag and drop in this file, and we check to confirm that every thing looks good then publish our very first (MVP) for this project.
