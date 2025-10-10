@@ -85,6 +85,25 @@ For now, the user will be able to;
 
 - Begin by building the Kanban board and styling it with only HTML and CSS and ensure it looks really close to the design inspired by "asana" -- a task management solution and don't worry for now about the structure because all this HTML code is later lone all going to be generated with JavaScript.
 
+- For the HTML structure, create a Kanban container, inside this container add a "Kanban_column" container, in the "Kanban_column" container, add a "title", a "Kanban_ticket" container and the "add ticket" button. In the "Kanban_ticket" container, create a "Kanban_ticket-input" container and give it an attribute `contenteditable` to allow the user to actually edit or use this element to enter a task in the task ticket card and a "Kanban_dropzone" container which is actually that area that gets highlighted when the user is dropping a ticket around the card ticket.
+
+- HTML Structure.
+
+```html
+<div class="kanban">
+  <div class="kanban__column">
+    <h2 class="kanban__column-title">Not Started</h2>
+    <div class="kanban__tickets">
+      <div contenteditable="" class="kanban__ticket-input">
+        Wash the dishes 💦
+      </div>
+      <div class="kanban__dropzone"></div>
+    </div>
+    <button class="kanban__button">+ Add Item</button>
+  </div>
+</div>
+```
+
 ### Data structures
 
 - Use micro-storage to persist data on the Kanban Board.
