@@ -60,3 +60,15 @@ This solution is easy to use and to adapt to very quickly however it's really ha
 - A visual animation should be rendered on the entire screen upon successfully completing all tickets assigned in the day to give a user the sense of accomplishment.
 
 ## The Core Features (MVP)
+
+Since I have decided to build this Kanban board in **vanilla JavaScript**, I am primarily going to first focus on the very basic functionality of the board and maybe after ensuring that everything works fine as expected, I'll re-visit this project later and add advanced functionality like changing themes, adding user Authentication with Firebase, integrating with external API's and much more.
+
+For now, the user will be able to;
+
+- Write/add a task in the task ticket card
+
+- Save a task after declaring it or after its completed.
+
+- Move the task ticket card in different columns of board (i.e "TO DO", "In Progress", "Completed")
+
+- Edit the contents of an already declared task ticket card.
