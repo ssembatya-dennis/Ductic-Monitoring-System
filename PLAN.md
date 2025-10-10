@@ -2,7 +2,7 @@
 
 ## Problem Statement
 
-The "Pixel & Quill" agency need a digital system that can record & track progress on tasks, save this records for a quite some good time like a 2years or more and that's accesible by the entire team anywhere as referenced here in their email.
+The "Pixel & Quill" agency needs a digital tool for assigning tasks, tracking progress and saving these tasks on completion for a longer period of time like over 2 years that's accessible by the entire team anywhere as referenced here in their email.
 
 > No Visibility: I have no clear, at-a-glance overview of who is working on what. Tasks are getting forgotten or duplicated.
 > Remote Work is Impossible: One of our best designers now works remotely two days a week, and she's completely disconnected from the board. It's causing delays.
@@ -10,9 +10,9 @@ The "Pixel & Quill" agency need a digital system that can record & track progres
 
 ## Proposed Solution
 
-- Using social channels (e.g Whatsapp group, slack channel)
+- Using social channels (e.g. WhatsApp group, Slack channel)
 
-This solution is easy to use and to adopt to very quickly however it's really hard to record progress and clear details on an ongoing task and with increase in scale, information get's really bulky to re-visit back to.
+This solution is easy to use and to adapt to very quickly however it's really hard to record progress on tasks. Writing clear details on an ongoing task is also not very advisable and with increase in scale, information gets really bulky to quickly have a clear glance overview of who is working on what.
 
 - Digital Kanban Software (most suitable solution)
 
@@ -27,33 +27,36 @@ This solution is easy to use and to adopt to very quickly however it's really ha
 - Detailed Task Information: Each "sticky note" (ticket) can hold attachments, comments, checklists, due dates, and activity history—details impossible on a physical note.
 - Familiar Visual Layout: The drag-and-drop card interface is a direct digital translation of sticky notes, making the transition intuitive for your team.
 
-## Digital Kanban Software (Ductic Monitoring System).
+## Digital Kanban Software (Ductic Productivity Tool).
 
 ## Must haves
 
-- a board with both the navigation panel and content section should be displayed after a loading screen without user authentication for now
+- A board with both the navigation panel and content section area should be rendered after a loading screen is displayed all without first authenticating user Login credentials.
 
-- a navigation pannel, that routes to different sections of the dashboard e.g (Home, Tasks, Inbox)
-- a modal on the board that when triggered it opens a form to declare and fill in information about the task ticket
-
-- a user must be able to change the color of the ticket to imitate the "sticky notes" nature
+- A navigation panel, that routes to different sections of the dashboard e.g (Home, Tasks, Inbox)
 
 - the Tasks sub-route should be divided into three column (i.e "Tasks for Today", "In Progress", "Successfully Accomplished")
 
-- a ticket must be able to change status (i.e. 'in-progress', 'completed, 'assigned')
+- A task ticket modal card on the board to write/add a task instantly but also can as well be triggered on mouse click to open a form fill in more information about the task ticket like the description, due-date and more important details about the task
 
-- a user must be able to tick on the ticket card created as completed and it automatically changes status
+- A task ticket can be saved after being declared
+
+- A task ticket can be dragged from one column and dropped in another column
+
+- The contents of the task in the ticket can be edited.
+
+- A user should be able to delete an already assigned ticket.
+
+- Task tickets should be displayed in the order of creation where the last ticket to be created should appear first, and the first ones appear last at the bottom unless the user manually alters the arrangement and moves a ticket to a different position.
+
+> NB: A task ticket is equivalent to a sticky note that was used before on the white board to write and attach a task on the white board.
 
 ## Good to haves
 
-- a ticket must be easy to drag and drop from one column to another and immediatly changes status according to the column in which it's placed (i.e "In progress", "Completed)
+- A user must be able to change the color of the ticket to imitate the "sticky notes" nature
 
-- tickets should be displayed in the order of creation where the last ticket to be created should appear first and the first ones appear last at the bottom unless the user manually alters the arrangment and moves a ticket to a different position.
+- A ticket should be able to disappear on the board when ticked done/complete
 
-- a ticket should be able to disappear on the board when ticked done/complete
+- A visual animation should be rendered on the entire screen upon successfully completing all tickets assigned in the day to give a user the sense of accomplishment.
 
-- a user should be able to delete an already assigned ticket.
-
-- a user should be able to edit contents of an already declared ticket.
-
-- a visual animation should be rendered on the entire screen upon successfully completing all ticketes assigned in the day to give a user the sense of accomplishment.
+## The Core Features (MVP)
