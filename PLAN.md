@@ -27,7 +27,7 @@ This solution is easy to use and to adapt to very quickly however it's really ha
 - Detailed Task Information: Each "sticky note" (ticket) can hold attachments, comments, checklists, due dates, and activity history—details impossible on a physical note.
 - Familiar Visual Layout: The drag-and-drop card interface is a direct digital translation of sticky notes, making the transition intuitive for your team.
 
-## Digital Kanban Software (Ductic Productivity Tool).
+## Digital Kanban Software (Ductic Web Application).
 
 ## Must haves
 
@@ -61,7 +61,7 @@ This solution is easy to use and to adapt to very quickly however it's really ha
 
 ## The Core Features (MVP)
 
-Since I have decided to build this Kanban board in **vanilla JavaScript**, I am primarily going to first focus on the very basic functionality of the board and maybe after ensuring that everything works fine as expected, I'll re-visit this project later and add advanced functionality like changing themes, adding user Authentication with Firebase, integrating with external API's and much more.
+Since I've decided to build this Kanban board in **vanilla JavaScript**, I am primarily going to first focus on the very basic functionality of the board and later lone after ensuring that everything works fine as expected, I can then re-visit back this project and add advanced functionality like changing themes, adding user Authentication with Firebase, integrating with external API's and much more.
 
 For now, the user will be able to;
 
@@ -72,3 +72,59 @@ For now, the user will be able to;
 - Move the task ticket card in different columns of board (i.e "TO DO", "In Progress", "Completed")
 
 - Edit the contents of an already declared task ticket card.
+
+## Development Process Plan
+
+- Start with building and displaying a loading spinner in HTML & CSS that is rendered first before the actual Kanban board is displayed using methods in vanilla JavaScript.
+
+- Using semantic HTML and CSS, build and style the Navigation panel component on the left-hand side of the Kanban board application with links that route to different sections of the dashboard.
+
+- Handle "Routing" at this point and ensure all the navigation links in the Navigation panel re-direct to the corresponding pages as expected e.g. ('Home', 'Tasks', 'Inbox') even though most of these pages will be blank for now all using Vanilla JavaScript.
+
+- Start developing the Tasks Page which actually contains most of the Kanban board functionality.
+
+- Begin by building the Kanban board and styling it with only HTML and CSS and ensure it looks really close to the design inspired by "asana" -- a task management solution and don't worry for now about the structure because all this HTML code is later lone all going to be generated with JavaScript.
+
+### Data structures
+
+- Use micro-storage to persist data on the Kanban Board.
+
+- For data storage, a JSON data array that contains three objects, One for each column **(i.e. "TO-DO", "In-progress", and "Completed")** respectively.
+
+- Each column has its own id **`id: 0`**, and also a tickets array **`tickets: []`**.
+
+- Inside the **tickets array** is an object with two items, the ticket id **`id: 42237`**, and the content string, **`content: ""`**
+
+- column data example
+
+```js
+[
+  {
+    id: 0,
+    tickets: [],
+  },
+
+  {
+    id: 1,
+    tickets: [],
+  },
+
+  {
+    id: 3,
+    tickets: [],
+  },
+];
+```
+
+- tickets data example
+
+```js
+{
+  tickets: [
+    {
+      id: 72714,
+      content: "Wash the dishes 💦",
+    },
+  ];
+}
+```
