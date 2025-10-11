@@ -42,12 +42,12 @@
   bottom: 2rem;
 }
 
-.logo_box {
+.spinner__logo-box {
   width: 5rem;
   height: 5rem;
 }
 
-.logo {
+.spinner__logo {
   width: 100%;
   height: 100%;
   object-fit: contain;

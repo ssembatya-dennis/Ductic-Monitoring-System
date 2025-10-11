@@ -24,24 +24,119 @@
     <meta name="author" content="Dennis Duncan Ssembatya" />
   </head>
   <body>
-    <main>
-      <div class="loader_container">
-        <div class="loading_spinner">
-          <div class="spinner"></div>
-          <div class="spinner__text-box">
-            <div class="logo_box">
-              <img src="assets/favicon.svg" alt="Ductic Logo" class="logo" />
-            </div>
-            <h2 class="spinner__text">Ductic</h2>
+    <div class="loader_container">
+      <div class="loading_spinner">
+        <div class="spinner"></div>
+        <div class="spinner__text-box">
+          <div class="spinner__logo-box">
+            <img
+              src="assets/favicon.svg"
+              alt="Ductic Logo"
+              class="spinner__logo"
+            />
+          </div>
+          <span class="spinner__text">Ductic</span>
+        </div>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <!-- Left Section: Menu & Logo -->
+      <div class="left-section">
+        <!-- Hamburger Menu Icon (using SVG) -->
+        <button class="menu-button" id="menu-button" aria-label="Open menu">
+          <svg class="icon" viewBox="0 0 24 24">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <!-- Logo / App Name -->
+        <div class="logo-brand">
+          <div class="header__logo-box">
+            <img
+              src="assets/favicon.svg"
+              alt="Ductic Logo"
+              class="header__logo"
+            />
+          </div>
+
+          <span class="logo__text">Ductic</span>
+        </div>
+      </div>
+
+      <!-- Center Section: Search Bar -->
+      <div class="search-container">
+        <div class="search-wrapper" id="search-wrapper">
+          <!-- Search Icon (using SVG) -->
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+
+          <!-- Search Input Field -->
+          <input
+            type="text"
+            placeholder="Search for metrics, users, or reports..."
+            class="search-input"
+            id="search-input"
+          />
+
+          <!-- Shortcut Keys -->
+          <div class="shortcut-keys">
+            <span class="shortcut-key">Ctrl</span>
+            <span class="shortcut-plus">+</span>
+            <span class="shortcut-key">K</span>
           </div>
         </div>
       </div>
 
-      <div class="dashboard__container hidden">
-        <h1>Welcome to the Dashboard!</h1>
-        <p>This is your fully rendered application.</p>
+      <!-- Right Section: User Profile & Dropdown -->
+      <div class="profile-section" id="profile-area">
+        <!-- Profile Picture -->
+        <div class="profile-image-container">
+          <img
+            src="https://placehold.co/100x100/374151/ffffff?text=U"
+            alt="User Profile"
+            class="profile-image"
+          />
+        </div>
+
+        <!-- Dropdown Arrow -->
+        <button
+          class="dropdown-button"
+          id="dropdown-button"
+          aria-expanded="false"
+          aria-label="Profile options"
+        >
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        <!-- Profile Dropdown Menu -->
+        <div class="profile-menu" id="profile-menu">
+          <a href="#" class="menu-item">Profile Settings</a>
+          <a href="#" class="menu-item">API Keys</a>
+          <hr class="menu-divider" />
+          <a href="#" class="menu-item" style="color: var(--color-accent-red)"
+            >Logout</a
+          >
+        </div>
       </div>
+    </header>
+
+    <!-- Content for the rest of the page -->
+    <main style="padding: 2rem">
+      <h2 style="font-size: 1.875rem; font-weight: 600; margin-bottom: 1rem">
+        Main Dashboard View
+      </h2>
+      <p style="color: var(--color-text-subtle)">
+        The header component is built using only native browser technologies.
+      </p>
     </main>
+
     <script src="js/main.js" type="module"></script>
   </body>
 </html>

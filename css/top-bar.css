@@ -1,0 +1,266 @@
+/* -------------------- Gemini Styles -------------------- */
+
+:root {
+  --color-bg-page: #1f2937; /* Dark background for context */
+  --color-bg-bar: #374151; /* Main bar color */
+  --color-bg-search: #4b5563; /* Search input color */
+  --color-text-light: #e5e7eb;
+  --color-text-subtle: #9ca3af;
+  --color-accent-red: #ef4444;
+  --color-shadow: rgba(0, 0, 0, 0.4);
+
+  --color-navigation-topbar-background: #2e2e30;
+  --color-navigation-border: #424244;
+  --color-navigation-search-background-strong: #565557;
+  --color-a11y-selected-border-active-inverse: #fff;
+  --color-navigation-text: #f5f4f3;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  background-color: var(--color-bg-page);
+  color: var(--color-text-light);
+  line-height: 1.5;
+}
+
+/* 2. Top Bar Structure */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-navigation-topbar-background);
+  border: 1px solid var(--color-navigation-border);
+  height: 64px;
+  padding: 0 1.5rem;
+}
+
+/* Utility for SVG Icons */
+.icon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-text-subtle);
+  margin-left: 0.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: all 0.2s ease-in-out;
+}
+
+/* 3. Left Section: Menu & Logo */
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: var(--color-text-subtle);
+  transition: background-color 0.2s;
+}
+
+.menu-button:hover {
+  color: var(--color-text-light);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.logo-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header__logo-box {
+  width: 3rem;
+  height: 3rem;
+}
+
+.header__logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.logo__text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-text-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* 4. Center Section: Search Bar */
+.search-container {
+  flex-grow: 1;
+  max-width: 600px;
+  margin: 0 2rem;
+}
+
+.search-wrapper {
+  width: 420px;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-navigation-search-background-strong);
+  padding: 0.5rem;
+  border-radius: 9999px; /* Pill shape */
+  color: var(--color-navigation-text);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.search-wrapper:focus-within {
+  background-color: var(--color-navigation-search-background-strong);
+  box-shadow: 0 0 0 2px var(--color-a11y-selected-border-active-inverse); /* Subtle border on hover/focus */
+}
+
+.search-wrapper:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-a11y-selected-border-active-inverse);
+}
+
+.search-input {
+  flex-grow: 1;
+  background: transparent;
+  color: var(--color-text-light);
+  padding: 0 0.75rem;
+  border: none;
+  outline: none;
+  font-size: 1.3rem;
+}
+
+.search-input::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.shortcut-keys {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-right: 0.5rem;
+}
+
+.shortcut-plus {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.shortcut-key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--color-text-subtle);
+  padding: 0 4px;
+}
+
+/* 5. Right Section: Profile & Dropdown */
+.profile-section {
+  display: flex;
+  align-items: center;
+  position: relative; /* For the dropdown menu */
+  cursor: pointer;
+}
+
+.profile-image-container {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #e7e7e4;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dropdown-button {
+  background: none;
+  border: none;
+  color: var(--color-text-subtle);
+  padding: 0.25rem;
+  transition: color 0.15s;
+}
+
+.dropdown-button:hover {
+  color: var(--color-text-light);
+}
+
+/* Dropdown Menu Styling */
+.profile-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 180px;
+  background-color: var(--color-bg-bar);
+  border: 1px solid var(--color-bg-search);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px var(--color-shadow);
+  padding: 0.5rem 0;
+  z-index: 50;
+  display: none; /* Hidden by default */
+  margin-top: 10px;
+  transform-origin: top right;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.menu-item {
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: var(--color-text-light);
+  font-size: 0.875rem;
+  transition: background-color 0.15s;
+}
+
+.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.menu-divider {
+  border: 0;
+  border-top: 1px solid var(--color-bg-search);
+  margin: 0.5rem 0;
+}
+
+/* Simple Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scaleY(0.95) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1) translateY(0);
+  }
+}
+
+/* 6. Mobile Responsiveness */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 0 0.75rem;
+  }
+  .logo-text {
+    font-size: 1rem;
+  }
+  .search-container {
+    margin: 0 0.5rem;
+    max-width: 400px;
+  }
+  .shortcut-keys {
+    display: none; /* Hide shortcut on small screens */
+  }
+}

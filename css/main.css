@@ -1,5 +1,5 @@
 @import url("./loading-spinner.css");
-
+@import url("./top-bar.css");
 /* -------------------- Initial Layout -------------------- */
 
 *,
@@ -22,6 +22,8 @@ body {
   color: #1e1f21;
   line-height: 1.6;
 }
+
+/* -------------------- Dashboard Styles -------------------- */
 
 /* Optional: Fade effect for main content */
 .dashboard__container {
