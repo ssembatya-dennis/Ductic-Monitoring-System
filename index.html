@@ -127,15 +127,112 @@
       </div>
     </header>
 
-    <!-- Content for the rest of the page -->
-    <main style="padding: 2rem">
-      <h2 style="font-size: 1.875rem; font-weight: 600; margin-bottom: 1rem">
-        Main Dashboard View
-      </h2>
-      <p style="color: var(--color-text-subtle)">
-        The header component is built using only native browser technologies.
-      </p>
-    </main>
+   <!-- Content Wrapper for Sidebar and Main Content -->
+    <div class="app-container">
+        
+        <!-- Side Navigation Bar -->
+        <nav id="sidebar" class="sidebar">
+            <!-- Create Button -->
+            <div class="sidebar-header">
+                <button class="create-button" id="create-button">
+                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24" stroke="white">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    <span>Create</span>
+                </button>
+            </div>
+            
+            <!-- Main Links -->
+            <div>
+                <a href="#" class="nav-link active">
+                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span class="nav-text">Home</span>
+                </a>
+                <a href="#" class="nav-link">
+                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24">
+                        <polyline points="9 11 12 14 22 4"></polyline>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+                    <span class="nav-text">My tasks</span>
+                </a>
+                <a href="#" class="nav-link">
+                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span class="nav-text">Inbox</span>
+                </a>
+            </div>
+            
+            <!-- Separator -->
+            <hr class="menu-divider" style="border-color: rgba(255, 255, 255, 0.1); margin: 1rem 0;">
+
+            <!-- Insights Section -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Insights</div>
+                <a href="#" class="nav-link">
+                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <span class="nav-text">Reporting</span>
+                </a>
+                <a href="#" class="nav-link">
+                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span class="nav-text">Portfolios</span>
+                </a>
+                <a href="#" class="nav-link">
+                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a10 10 0 0 0 0 20"></path>
+                        <path d="M12 2c2.5 0 4.9 1 6.8 2.8s2.8 4.3 2.8 6.8"></path>
+                    </svg>
+                    <span class="nav-text">Goals</span>
+                </a>
+            </div>
+
+            <!-- Projects Section -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Projects</div>
+                <a href="#" class="nav-link">
+                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="9"></rect>
+                        <rect x="14" y="3" width="7" height="5"></rect>
+                        <rect x="14" y="12" width="7" height="9"></rect>
+                        <rect x="3" y="16" width="7" height="5"></rect>
+                    </svg>
+                    <span class="nav-text">Overview</span>
+                </a>
+                <a href="#" class="nav-link">
+                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span class="nav-text">Team</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main id="content">
+            <h1 style="color: var(--color-text-light); font-size: 2rem;">Welcome to the Dashboard</h1>
+            <p style="color: var(--color-text-subtle);">Click the menu button in the top-left corner to toggle the sidebar's expanded and collapsed states. The main content area shifts smoothly to accommodate it.</p>
+            <div style="background-color: var(--color-bg-bar); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+                <h3 style="margin-top: 0; color: var(--color-accent-red);">Main Content Block</h3>
+                <p>This area will contain all your application data. The layout is designed to be fully responsive, switching to a mobile menu overlay on smaller screens.</p>
+                <p>Try resizing your browser window to see the responsive behavior.</p>
+            </div>
+        </main>
+        
+        <!-- Mobile Overlay -->
+        <div class="overlay" id="mobile-overlay"></div>
 
     <script src="js/main.js" type="module"></script>
   </body>

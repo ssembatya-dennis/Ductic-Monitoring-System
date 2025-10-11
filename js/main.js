@@ -22,32 +22,79 @@ document.addEventListener("DOMContentLoaded", () => {
 // --- Gemini Code ---
 
 document.addEventListener("DOMContentLoaded", () => {
+  const body = document.body;
+  const menuButton = document.getElementById("menu-button");
   const searchInput = document.getElementById("search-input");
   const profileArea = document.getElementById("profile-area");
-  const dropdownButton = document.getElementById("dropdown-button");
   const profileMenu = document.getElementById("profile-menu");
-  const menuButton = document.getElementById("menu-button");
+  const dropdownButton = document.getElementById("dropdown-button");
+  const sidebar = document.getElementById("sidebar");
+  const mobileOverlay = document.getElementById("mobile-overlay");
 
-  // Function to toggle the profile menu visibility
-  const toggleProfileMenu = (show) => {
-    const isVisible = profileMenu.style.display === "block";
-    if (show !== undefined ? show : !isVisible) {
-      profileMenu.style.display = "block";
-      dropdownButton.setAttribute("aria-expanded", "true");
-    } else {
-      profileMenu.style.display = "none";
-      dropdownButton.setAttribute("aria-expanded", "false");
+  // --- 1. Sidebar Toggle Logic ---
+  const toggleSidebar = () => {
+    // Toggle the 'collapsed' class on the body
+    body.classList.toggle("collapsed");
+
+    // For mobile, the 'collapsed' class means the menu is actually OPENED
+    if (window.innerWidth < 1024) {
+      const isOpen = body.classList.contains("collapsed");
+      // Lock scrolling when menu is open on mobile
+      // document.documentElement.style.overflowY = isOpen ? "hidden" : "auto";
     }
   };
 
-  // 1. Profile Dropdown Click Handler
+  // Initial adjustment for desktop view
+  if (window.innerWidth >= 1024) {
+    // On desktop, we start expanded and can collapse it
+    body.classList.remove("collapsed");
+  } else {
+    // On mobile, the sidebar is hidden by default. The 'collapsed' class opens it.
+    body.classList.add("collapsed");
+  }
+
+  menuButton.addEventListener("click", toggleSidebar);
+  mobileOverlay.addEventListener("click", toggleSidebar);
+
+  // --- 2. Search Bar Focus / Ctrl+K Shortcut ---
+  const focusSearch = (e) => {
+    e.preventDefault();
+    searchInput.focus();
+    // Visual highlight
+    document.getElementById("search-wrapper").style.boxShadow =
+      "0 0 0 2px var(--color-accent-red)";
+    setTimeout(() => {
+      document.getElementById("search-wrapper").style.boxShadow =
+        "inset 0 1px 3px rgba(0, 0, 0, 0.2)";
+    }, 500);
+  };
+
+  document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.key === "k") {
+      focusSearch(e);
+    }
+  });
+
+  document.getElementById("search-wrapper").addEventListener("click", (e) => {
+    if (e.target !== searchInput) {
+      searchInput.focus();
+    }
+  });
+
+  // --- 3. Profile Dropdown Logic ---
+  const toggleProfileMenu = (show) => {
+    const isVisible = profileMenu.style.display === "block";
+    const shouldShow = show !== undefined ? show : !isVisible;
+
+    profileMenu.style.display = shouldShow ? "block" : "none";
+    dropdownButton.setAttribute("aria-expanded", shouldShow);
+  };
+
   profileArea.addEventListener("click", (e) => {
-    // Prevent the click from propagating to the document and closing the menu instantly
     e.stopPropagation();
     toggleProfileMenu();
   });
 
-  // 2. Global Click Handler to close menu when clicking outside
   document.addEventListener("click", (e) => {
     if (
       profileMenu.style.display === "block" &&
@@ -57,40 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 3. Search Bar Focus / Ctrl+K Shortcut
-  const focusSearch = (e) => {
-    e.preventDefault();
-    searchInput.focus();
-    // Optionally visually highlight the search wrapper
-    document.getElementById("search-wrapper").style.boxShadow =
-      "0 0 0 2px var(--color-accent-red)";
-    setTimeout(() => {
-      document.getElementById("search-wrapper").style.boxShadow =
-        "inset 0 1px 3px rgba(0, 0, 0, 0.2)";
-    }, 500);
-  };
-
-  // Keyboard shortcut (Ctrl + K)
-  document.addEventListener("keydown", (e) => {
-    if (e.ctrlKey && e.key === "k") {
-      focusSearch(e);
-    }
-  });
-
-  // Click anywhere on the search wrapper to focus the input
-  document.getElementById("search-wrapper").addEventListener("click", (e) => {
-    // Only focus if the click wasn't on the input itself (to avoid double focus calls)
-    if (e.target !== searchInput) {
-      searchInput.focus();
-    }
-  });
-
-  // 4. Menu Button handler (using custom message box instead of alert())
-  menuButton.addEventListener("click", () => {
-    displayMessageBox("Navigation menu toggle simulated.", "Menu Click");
-  });
-
-  // Custom Message Box function (to replace banned alert/confirm)
+  // --- 4. Custom Alert Function (for Menu/Create buttons) ---
   const displayMessageBox = (message, title) => {
     const modal = document.createElement("div");
     modal.style.cssText = `
@@ -107,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         background-color: var(--color-accent-red); color: white; border: none; 
                         padding: 8px 16px; border-radius: 4px; cursor: pointer;
                         font-weight: 600; transition: background-color 0.2s;
-                    ">Got It</button>
+                    ">OK</button>
                 `;
     document.body.appendChild(modal);
 
@@ -115,4 +129,11 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.removeChild(modal);
     };
   };
+
+  document.getElementById("create-button").addEventListener("click", () => {
+    displayMessageBox(
+      'The "Create" action button was clicked.',
+      "Action Triggered"
+    );
+  });
 });
