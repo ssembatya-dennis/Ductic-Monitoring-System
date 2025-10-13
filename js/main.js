@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     searchInput.focus();
     // Visual highlight
     document.getElementById("search-wrapper").style.boxShadow =
-      "0 0 0 2px var(--color-accent-red)";
+      "0 0 0 2px var(--color-white)";
     setTimeout(() => {
       document.getElementById("search-wrapper").style.boxShadow =
         "inset 0 1px 3px rgba(0, 0, 0, 0.2)";
@@ -102,38 +102,5 @@ document.addEventListener("DOMContentLoaded", () => {
     ) {
       toggleProfileMenu(false);
     }
-  });
-
-  // --- 4. Custom Alert Function (for Menu/Create buttons) ---
-  const displayMessageBox = (message, title) => {
-    const modal = document.createElement("div");
-    modal.style.cssText = `
-                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                    background-color: var(--color-bg-bar); padding: 20px; border-radius: 8px;
-                    box-shadow: 0 5px 15px var(--color-shadow); z-index: 1000;
-                    color: var(--color-text-light); border: 1px solid var(--color-bg-search);
-                    max-width: 300px; text-align: center;
-                `;
-    modal.innerHTML = `
-                    <h4 style="margin-top: 0; color: var(--color-accent-red);">${title}</h4>
-                    <p style="margin-bottom: 15px; font-size: 0.9rem;">${message}</p>
-                    <button id="msg-ok" style="
-                        background-color: var(--color-accent-red); color: white; border: none; 
-                        padding: 8px 16px; border-radius: 4px; cursor: pointer;
-                        font-weight: 600; transition: background-color 0.2s;
-                    ">OK</button>
-                `;
-    document.body.appendChild(modal);
-
-    document.getElementById("msg-ok").onclick = function () {
-      document.body.removeChild(modal);
-    };
-  };
-
-  document.getElementById("create-button").addEventListener("click", () => {
-    displayMessageBox(
-      'The "Create" action button was clicked.',
-      "Action Triggered"
-    );
   });
 });

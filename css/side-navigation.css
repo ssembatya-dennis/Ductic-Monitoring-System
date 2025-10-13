@@ -1,41 +1,15 @@
 /* ------------------------------------------- */
-
-:root {
-  /* Colors */
-  --color-bg-page: #1e1f21; /* Dark background for context */
-  --color-bg-bar: #374151; /* Top bar color */
-  --color-bg-sidebar: #2e2e30; /* Sidebar color, slightly lighter than top bar */
-  --color-bg-search: #4b5563; /* Search input color */
-  --color-text-light: #e5e7eb;
-  --color-text-subtle: #9ca3af;
-  --color-accent-red: #ef4444;
-  --color-shadow: rgba(0, 0, 0, 0.4);
-
-  /* Layout */
-  --sidebar-width-expanded: 240px;
-  --sidebar-width-collapsed: 120px;
-  --header-height: 64px;
-}
-
-/* 3. Main Layout Container */
-/* ------------------------------------------- */
-.app-container {
-  display: flex;
-  flex: 1;
-}
-
-/* ------------------------------------------- */
 /* 4. Sidebar Styles */
 /* ------------------------------------------- */
 .sidebar {
   width: var(--sidebar-width-expanded);
   height: calc(100vh - var(--header-height));
-  background-color: var(--color-bg-sidebar);
+  background-color: var(--color-navigation-sidebar-background);
   flex-shrink: 0; /* Prevents sidebar from shrinking */
   overflow-x: hidden;
   padding: 1.5rem 0.5rem;
   z-index: 10;
-
+  box-shadow: 3px 0px 15px rgba(0, 0, 0, 0.2);
   /* CSS Transition for Smooth Collapse/Expand */
   transition: width 0.3s ease, padding 0.3s ease;
 }
@@ -61,13 +35,13 @@
 }
 
 .nav-link:hover {
-  background-color: var(--color-bg-bar);
+  background-color: var(--color-navigation-sidebar-background-hover);
 }
 
 /* Active Link Styling */
 .nav-link.active {
-  background-color: var(--color-bg-bar);
-  color: var(--color-accent-red);
+  background-color: var(--color-navigation-sidebar-background-strong);
+  color: var(--color-white);
 }
 
 /* Sidebar Content Styling */
@@ -144,17 +118,6 @@
   margin-right: 0;
 }
 
-/* ------------------------------------------- */
-/* 5. Main Content Styles */
-/* ------------------------------------------- */
-#content {
-  flex-grow: 1;
-  padding: 2rem;
-
-  /* CSS Transition for smooth shift when sidebar collapses */
-  transition: margin-left 0.3s ease;
-}
-
 /* Handle fixed header overlap when scrolling */
 .header-placeholder {
   height: var(--header-height);
@@ -191,10 +154,6 @@
   .topbar .logo-text,
   .search-container {
     display: none;
-  }
-
-  #content {
-    margin-left: 0 !important;
   }
 
   /* Mobile Expanded State */

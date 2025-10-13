@@ -1,29 +1,3 @@
-/* -------------------- Gemini Styles -------------------- */
-
-:root {
-  --color-bg-page: #1f2937; /* Dark background for context */
-  --color-bg-bar: #374151; /* Main bar color */
-  --color-bg-search: #4b5563; /* Search input color */
-  --color-text-light: #e5e7eb;
-  --color-text-subtle: #9ca3af;
-  --color-accent-red: #ef4444;
-  --color-shadow: rgba(0, 0, 0, 0.4);
-
-  --color-navigation-topbar-background: #2e2e30;
-  --color-navigation-border: #424244;
-  --color-navigation-search-background-strong: #565557;
-  --color-a11y-selected-border-active-inverse: #fff;
-  --color-navigation-text: #f5f4f3;
-}
-
-body {
-  font-family: "Inter", sans-serif;
-  margin: 0;
-  background-color: var(--color-bg-page);
-  color: var(--color-text-light);
-  line-height: 1.5;
-}
-
 /* 2. Top Bar Structure */
 .topbar {
   display: flex;
@@ -117,11 +91,11 @@ body {
 
 .search-wrapper:focus-within {
   background-color: var(--color-navigation-search-background-strong);
-  box-shadow: 0 0 0 2px var(--color-a11y-selected-border-active-inverse); /* Subtle border on hover/focus */
+  box-shadow: 0 0 0 2px var(--color-white); /* Subtle border on hover/focus */
 }
 
 .search-wrapper:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-a11y-selected-border-active-inverse);
+  box-shadow: 0 0 0 2px var(--color-white);
 }
 
 .search-input {
@@ -187,29 +161,16 @@ body {
   object-fit: cover;
 }
 
-.dropdown-button {
-  background: none;
-  border: none;
-  color: var(--color-text-subtle);
-  padding: 0.25rem;
-  transition: color 0.15s;
-}
-
-.dropdown-button:hover {
-  color: var(--color-text-light);
-}
-
 /* Dropdown Menu Styling */
 .profile-menu {
   position: absolute;
   top: 100%;
   right: 0;
   min-width: 180px;
-  background-color: var(--color-bg-bar);
-  border: 1px solid var(--color-bg-search);
+  background-color: var(--color-navigation-topbar-background);
   border-radius: 0.5rem;
   box-shadow: 0 4px 8px var(--color-shadow);
-  padding: 0.5rem 0;
+  padding: 0.5rem 1rem;
   z-index: 50;
   display: none; /* Hidden by default */
   margin-top: 10px;
@@ -219,10 +180,10 @@ body {
 
 .menu-item {
   display: block;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   text-decoration: none;
   color: var(--color-text-light);
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   transition: background-color 0.15s;
 }
 
@@ -232,7 +193,7 @@ body {
 
 .menu-divider {
   border: 0;
-  border-top: 1px solid var(--color-bg-search);
+  border-top: 1px solid var(--color-navigation-search-background-strong);
   margin: 0.5rem 0;
 }
 
