@@ -23,7 +23,7 @@
   --color-navigation-sidebar-background-hover: #2c2c2e;
 
   /* Layout */
-  --sidebar-width-expanded: 240px;
+  --sidebar-width-expanded: 200px;
   --sidebar-width-collapsed: 120px;
   --header-height: 64px;
 }
