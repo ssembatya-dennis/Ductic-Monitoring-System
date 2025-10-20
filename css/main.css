@@ -25,3 +25,53 @@ body {
   color: var(--color-text);
   line-height: 1.6;
 }
+
+.kanban {
+  display: flex;
+  padding: 3rem;
+  background-color: #009578;
+  border-radius: 5px;
+}
+
+.kanban__column {
+  flex: 1;
+}
+
+.kanban__column:not(:last-child) {
+  margin-right: 3rem;
+}
+
+.kanban__column-title {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 2rem;
+}
+
+.kanban__ticket-input {
+  padding: 1rem 1.5rem;
+  background: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.kanban__dropzone {
+  height: 1rem;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.kanban__dropzone--active {
+  height: 2rem;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.kanban__button {
+  width: 100%;
+  padding: 1rem 0;
+  font-size: 1.6rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
