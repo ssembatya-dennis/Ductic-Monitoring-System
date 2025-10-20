@@ -1,34 +1,8 @@
-@import url("./loading-spinner.css");
-@import url("./top-bar.css");
-@import url("./side-navigation.css");
-
 :root {
   /* Colors */
   --color-page-background: #1e1f21; /* Dark background for context */
-  --color-bg-bar: #374151; /* Main bar color */
-  --color-bg-search: #4b5563;
-  --color-text-light: #e5e7eb;
-  --color-text-subtle: #9ca3af;
-  --color-accent-red: #ef4444;
-  --color-shadow: rgba(0, 0, 0, 0.4);
-  --color-white: #ffffff;
-
-  --color-navigation-topbar-background: #2e2e30;
-  --color-navigation-border: #424244;
-  --color-navigation-search-background-strong: #565557;
-  --color-navigation-text: #f5f4f3;
-
-  --color-navigation-sidebar-background: #1d1d1f;
-  --color-navigation-sidebar-background-strong: #3a3a3c;
-  --color-navigation-sidebar-background-hover: #2c2c2e;
-
-  /* Layout */
-  --sidebar-width-expanded: 200px;
-  --sidebar-width-collapsed: 120px;
-  --header-height: 64px;
+  --color-text: #f5f5f5; /* Light text for readability */
 }
-
-/* -------------------- Initial Layout -------------------- */
 
 *,
 *::before,
@@ -48,37 +22,6 @@ body {
   font-size: 1.6rem;
   font-weight: 400;
   background-color: var(--color-page-background);
-  color: var(--color-text-light);
+  color: var(--color-text);
   line-height: 1.6;
-}
-
-/* -------------------- Dashboard Styles -------------------- */
-
-/* ------------------------------------------- */
-
-/* 3. Main Layout Container */
-/* ------------------------------------------- */
-.app-container {
-  display: flex;
-  flex: 1;
-}
-
-/* Optional: Fade effect for main content */
-.dashboard__container {
-  transition: opacity 0.5s ease-in-out;
-}
-
-.hidden {
-  display: none;
-}
-
-/* ------------------------------------------- */
-/* 5. Main Content Styles */
-/* ------------------------------------------- */
-#content {
-  flex-grow: 1;
-  padding: 2rem;
-
-  /* CSS Transition for smooth shift when sidebar collapses */
-  transition: margin-left 0.3s ease;
 }
