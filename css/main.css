@@ -48,7 +48,7 @@ body {
   margin-bottom: 2rem;
 }
 
-.kanban__ticket-input {
+.kanban__column-ticket-input {
   padding: 1rem 1.5rem;
   background: white;
   border-radius: 5px;
