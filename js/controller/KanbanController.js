@@ -20,6 +20,8 @@ export default class KanbanController {
     this.view.onTaskActionButtonsClick(this.handleTaskActionButtonClick);
     this.view.onModalWindowClose(this.handleModalWindowClose);
     this.view.onCancelButtonClick(this.handleOnCancelButtonClick);
+    this.view.onTaskDragOver(this.handleDragover);
+    this.view.onTaskDrop(this.handleDrop);
   }
 
   init() {
@@ -109,70 +111,29 @@ export default class KanbanController {
 
   handleDragover = (event) => {
     event.preventDefault(); // allow drop
-    this.draggedTask = this.view.draggedTask;
-    this.target = event.target.closest(".task, .tasks");
+    const draggedTask = document.querySelector(".dragging");
+    const target = event.target.closest(".task, .tasks");
 
-    if (this.target !== true) {
+    if (!draggedTask || !target || target === draggedTask) {
       return;
     }
 
-    if (this.target === this.draggedTask) {
-      return;
+    // target is a tasks element or container
+    if (target.classList.contains("tasks")) {
+      Util.dragOverContainer(event, draggedTask, target);
     }
 
-    if (this.target.classList.contains("tasks")) {
-      // target is a tasks element or container
-      this.dragOverContainer(event, this.draggedTask);
+    // target is another task
+    if (target.classList.contains("task")) {
+      Util.dragOverTask(event, draggedTask, target);
     }
-
-    if (this.target.classList.contains("task")) {
-      // target is another task
-      this.dragOverTask(event, this.draggedTask);
-    }
-  };
-
-  dragOverContainer = (event, draggedTask) => {
-    this.lastTask = target.lastElementChild;
-
-    if (this.lastTask !== true) {
-      this.target.appendChild(draggedTask);
-    }
-
-    const { containerBottomPosition } = this.lastTask.getBoundingClientRect();
-
-    if (event.clientY > containerBottomPosition) {
-      this.target.appendChild(draggedTask);
-    }
-  };
-
-  dragOverTask = (event, draggedTask) => {
-    // calculating the center position of the card
-    const { top, height } = target.getBoundingClientRect();
-    this.targetCenterPosition = top + height / 2;
-
-    if (event.clientY < this.targetCenterPosition) {
-      this.target.before(draggedTask);
-    }
-
-    this.target.after(draggedTask);
   };
 
   handleDrop = (event) => {
     event.preventDefault();
   };
 
-  ///////// Dragstart & Drag End
-
-  handleDragstart = (event) => {
-    event.dataTransfer.dropEffect = "move";
-    event.dataTransfer.setData("text/plain", "");
-    requestAnimationFrame(() => event.target.classList.add("dragging"));
-  };
-
-  handleDragend = (event) => {
-    event.target.classList.remove("dragging");
-  };
-
+  /////////////// Place Holder tasks
   renderPlaceholderTasks = () => {
     this.view.placeholderTasks.forEach((column, index) => {
       this.displayTasks(column, index);
