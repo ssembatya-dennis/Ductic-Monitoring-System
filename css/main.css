@@ -26,8 +26,6 @@ body {
   font-family: "Mulish", sans-serif;
   color: var(--text-color);
   background-color: var(--bg-color);
-  display: grid;
-  grid-template-rows: auto 1fr;
   box-sizing: inherit;
 }
 
@@ -47,22 +45,22 @@ button:is(:active, :hover) {
   opacity: 1;
 }
 
-.container {
+.kanban-container {
   width: min(1200px, 90%);
   margin: 0 auto;
 }
 
 .columns {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 1.5rem;
 }
-/* 
+
 @media (min-width: 768px) {
   .columns {
     flex-direction: row;
   }
-} */
+}
 
 .column {
   flex: 1;
