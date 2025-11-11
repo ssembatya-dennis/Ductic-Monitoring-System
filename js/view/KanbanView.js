@@ -51,15 +51,16 @@ export default class KanbanView {
     this.columnsContainer.addEventListener("click", handler);
   };
 
-  onTaskDragOver = () => {
+  ////// task dragging over and drop
+  onTaskDragOver = (handler) => {
     for (const taskElement of this.allTasksElementsContainer) {
-      taskElement.addEventListener("dragover", handleDragover);
+      taskElement.addEventListener("dragover", handler);
     }
   };
 
-  onTaskDrop = () => {
+  onTaskDrop = (handler) => {
     for (const taskElement of this.allTasksElementsContainer) {
-      taskElement.addEventListener("drop", handleDrop);
+      taskElement.addEventListener("drop", handler);
     }
   };
 }
