@@ -41,4 +41,56 @@ export default class Util {
       Util.CURRENT_TASK.remove();
     }
   };
+
+  ///////// Dragstart & Drag End
+
+  static handleDragstart = (event) => {
+    event.dataTransfer.dropEffect = "move";
+    event.dataTransfer.setData("text/plain", "");
+    requestAnimationFrame(() => event.target.classList.add("dragging"));
+  };
+
+  static handleDragend = (event) => {
+    event.target.classList.remove("dragging");
+  };
+
+  // Dragging a task card over different task elements or the task container
+
+  static dragOverTask = (event, draggedTask, target) => {
+    // calculating the center position of the card
+    const { top, height } = target.getBoundingClientRect();
+    const targetCenterPosition = top + height / 2;
+
+    if (event.clientY < targetCenterPosition) {
+      // Drop before the target task
+      return target.before(draggedTask);
+    }
+
+    // Drop after the target task
+    return target.after(draggedTask);
+  };
+
+  static dragOverContainer = (event, draggedTask, target) => {
+    // all non-dragged tasks in this container
+    const taskElements = Array.from(
+      target.querySelectorAll(".task:not(.dragging)")
+    );
+
+    const lastTask = taskElements.pop();
+
+    if (!lastTask) {
+      // if container is empty or only contains the dragged task.
+      return target.appendChild(draggedTask);
+    }
+
+    // if container has other tasks, check the drop zone.
+
+    // Get the bottom edge of the last task element
+    const { bottom } = lastTask.getBoundingClientRect();
+
+    if (event.clientY > bottom) {
+      // drop at the end of the list.
+      return target.appendChild(draggedTask);
+    }
+  };
 }
