@@ -26,6 +26,9 @@ export default class Task {
         </menu>
     `;
 
+    task.addEventListener("dragstart", Util.handleDragstart);
+    task.addEventListener("dragend", Util.handleDragend);
+
     return task;
   };
 
