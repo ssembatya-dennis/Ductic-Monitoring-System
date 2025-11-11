@@ -4,7 +4,7 @@
  * Input element container dynamically
  */
 
-import Util from "../utils/Util.js";
+import Util from "../Util/Util.js";
 
 export default class Task {
   /**
