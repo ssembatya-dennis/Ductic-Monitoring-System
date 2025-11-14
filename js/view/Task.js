@@ -19,7 +19,7 @@ export default class Task {
     task.draggable = true;
 
     task.innerHTML = `
-        <div>${content}</div>
+        <div class="task-content-text">${content}</div>
         <menu>
             <button data-edit><i class="bi bi-pencil-square"></i></button>
             <button data-delete><i class="bi bi-trash"></i></button>

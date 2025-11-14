@@ -19,13 +19,6 @@ export default class KanbanView {
 
     // buttons
     this.cancelButton = document.querySelector("#cancel");
-
-    //place holder tasks
-    this.placeholderTasks = [
-      ["Write Reports", "Code Review", "Team meeting"],
-      ["Morning Workouts", "Chill time"],
-      ["Fix Bugs", "Submit Projext", "meeting notes"],
-    ];
   }
 
   //////////////// Modal window button Event Listeners

@@ -25,7 +25,9 @@ export default class Util {
 
   static handleOnEditTask = (event) => {
     this.task = event.target.closest(".task");
-    this.inputTaskElement = Task.createTaskInput(this.task.innerText);
+    this.inputTaskElement = Task.createTaskInput(
+      this.task.querySelector("div").innerHTML.replace(/<br>/g, "\n")
+    );
 
     this.task.replaceWith(this.inputTaskElement);
     this.inputTaskElement.focus();

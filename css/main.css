@@ -94,6 +94,7 @@ button:is(:active, :hover) {
 
 .tasks {
   min-height: var(--task-size);
+  margin-top: 0.6rem;
   display: grid;
   align-content: start;
   gap: 0.5rem;

@@ -6,6 +6,7 @@
 
 import Task from "../view/Task.js";
 import Util from "../Util/Util.js";
+import KanbanAPI from "../api/KanbanAPI.js";
 
 export default class KanbanController {
   constructor(view) {
@@ -25,8 +26,8 @@ export default class KanbanController {
   }
 
   init() {
-    this.observeTaskChanges();
-    this.renderPlaceholderTasks();
+    this.loadColumnTasks(); // Load saved tasks first
+    this.observeTaskChanges(); // Then set up the observer
   }
   /**
    * handler for create new task button onClick event
@@ -70,10 +71,28 @@ export default class KanbanController {
 
   observeTaskChanges = () => {
     for (const column of this.view.columns) {
-      this.observer = new MutationObserver(() => this.updateTaskCount(column));
-      this.observer.observe(column.querySelector(".tasks"), {
+      const tasksContainer = column.querySelector(".tasks");
+
+      this.observer = new MutationObserver(() => {
+        // 1. Update the count (your existing logic)
+        this.updateTaskCount(column);
+
+        // 2. Save the new state of this column
+        this.saveColumnTasks(column);
+      });
+
+      this.observer.observe(tasksContainer, {
         childList: true,
       });
+    }
+  };
+
+  /**
+   * Calculates and updates the task count for all columns.
+   */
+  updateAllTaskCounts = () => {
+    for (const column of this.view.columns) {
+      this.updateTaskCount(column);
     }
   };
 
@@ -133,20 +152,70 @@ export default class KanbanController {
     event.preventDefault();
   };
 
-  /////////////// Place Holder tasks
-  renderPlaceholderTasks = () => {
-    this.view.placeholderTasks.forEach((column, index) => {
-      this.displayTasks(column, index);
-    });
+  /**
+   * save the task card element contents in the database
+   *
+   * @param {*} columnElement
+   */
+  saveColumnTasks(columnElement) {
+    const [columnId, taskElementsContent] =
+      this.readTaskElementsContent(columnElement);
+    // Save this array to localStorage
+    KanbanAPI.saveTasks(columnId, taskElementsContent);
+
+    // We can log this to see it working
+    console.log(`Saved tasks for ${columnId}:`, taskElementsContent);
+  }
+
+  /**
+   *
+   * @param {*} columnElement
+   * @returns {[]}
+   */
+  readTaskElementsContent = (columnElement) => {
+    const columnId = columnElement.dataset.columnId;
+    const tasksContainer = columnElement.querySelector(".tasks");
+    const taskElements = tasksContainer.querySelectorAll(".task");
+
+    // Create an array of just their content
+    const tasksContent = [];
+    for (const task of taskElements) {
+      const contentDiv = task.querySelector(".task-content-text");
+      tasksContent.push(contentDiv ? contentDiv.innerHTML : "");
+    }
+
+    return [columnId, tasksContent];
   };
 
-  displayTasks = (col, index) => {
-    for (const item of col) {
-      this.tasks = this.view.columns[index].querySelector(".tasks");
+  /**
+   * render stored task card elements for every particular column
+   */
+  loadColumnTasks() {
+    console.log("--- Loading tasks from localStorage ---");
 
-      this.createdTasks = Task.createTask(item);
+    for (const column of this.view.columns) {
+      const columnId = column.dataset.columnId;
 
-      this.tasks.appendChild(this.createdTasks);
+      // Fetch the saved tasks for this column
+      const savedColumnTasks = KanbanAPI.getTasks(columnId);
+
+      // For each saved task (which is just a string), create a task element
+      this.writeColumnTasks(column, savedColumnTasks);
+    }
+
+    this.updateAllTaskCounts();
+  }
+
+  /**
+   * render a task element card in the
+   * @returns {string[]} - An array of task content strings.
+   */
+  writeColumnTasks = (column, savedTasks) => {
+    const tasksContainer = column.querySelector(".tasks");
+
+    for (const taskContent of savedTasks) {
+      const taskElement = Task.createTask(taskContent);
+      tasksContainer.appendChild(taskElement);
     }
   };
 }
