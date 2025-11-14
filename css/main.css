@@ -1,17 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600;700&display=swap");
 
 :root {
-  --bg-color: #e2e8f0;
-  --text-color: #404040;
-  --primary-color: #475569;
-  --secondary-color: #cbd5e1;
-  --task-color: #f6f6f6;
-  --cancel-color: #e5e7eb;
-  --confirm-color: #dc2626;
-  --confirm-hover-color: #b91c1c;
+  --bg-color: #f8faff; /* Lighter, subtle background */
+  --text-color: #334155; /* Slate-700 */
+  --primary-color: #4f46e5; /* Indigo-600 */
+  --secondary-color: #e2e8f0; /* Slate-200 */
+  --task-color: #ffffff;
+  --cancel-color: #cbd5e1;
+  --confirm-color: #ef4444; /* Red-500 */
+  --confirm-hover-color: #dc2626; /* Red-600 */
   --task-size: 48px;
+  --radius: 0.5rem; /* Standard rounded corners */
 }
 
+/* Base Styles & Reset */
 * {
   padding: 0;
   margin: 0;
@@ -19,38 +21,43 @@
 }
 
 html {
-  font-size: 87.5%;
+  font-size: 93.75%; /* 15px base */
 }
 
 body {
   font-family: "Mulish", sans-serif;
   color: var(--text-color);
   background-color: var(--bg-color);
-  box-sizing: inherit;
+  min-height: 100vh;
+  padding: 2rem 0;
 }
 
 h1 {
-  margin: 2rem 0;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  letter-spacing: -0.05em;
 }
 
+/* Button Base Style */
 button {
   cursor: pointer;
   border: none;
   background: transparent;
   outline-color: var(--primary-color);
-  transition: 0.3s;
+  transition: all 0.2s ease-in-out;
+  padding: 0;
 }
 
 button:is(:active, :hover) {
-  opacity: 1;
+  opacity: 0.85;
 }
 
-.kanban-container {
-  width: min(1200px, 90%);
-  margin: 0 auto;
-}
-
+/* Layout */
 .columns {
+  width: min(1280px, 95%);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -59,198 +66,321 @@ button:is(:active, :hover) {
 @media (min-width: 768px) {
   .columns {
     flex-direction: row;
+    align-items: flex-start; /* Important for alignment */
   }
 }
 
 .column {
   flex: 1;
+  min-width: 280px;
   display: grid;
   grid-template-rows: var(--task-size) 1fr;
+  background-color: var(--secondary-color);
+  border-radius: var(--radius);
+  padding: 0.5rem;
 }
 
+/* Column Header */
 .column-title {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--secondary-color);
+  border-bottom: 2px solid var(--secondary-color);
+  padding: 0 0.5rem 0.5rem 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .column-title h3 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   text-transform: uppercase;
+  color: var(--text-color);
+  font-weight: 600;
 }
 
+/* Task Count Badge */
 .column-title h3::after {
   content: attr(data-tasks);
-  background-color: lightblue;
-  margin-left: 0.25rem;
-  border-radius: 0.25rem;
-  padding: 0 0.25rem;
+  background-color: var(--primary-color);
+  color: white;
+  margin-left: 0.5rem;
+  border-radius: 9999px; /* Pill shape */
+  padding: 0.1rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
 .column-title button {
   margin-left: auto;
   font-size: 2rem;
+  color: var(--primary-color);
+  font-weight: 300;
+  opacity: 1;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.column-title button:hover {
+  background-color: rgba(79, 70, 229, 0.1); /* Subtle hover effect */
+  opacity: 1;
+}
+
+/* Tasks Container */
 .tasks {
   min-height: var(--task-size);
-  margin-top: 0.6rem;
-  display: grid;
-  align-content: start;
-  gap: 0.5rem;
+  display: flex; /* Use flex to manage tasks */
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.25rem 0.5rem 0.5rem 0.5rem;
 }
 
-.tasks > * {
-  background-color: #fff;
-  border-radius: 0.25rem;
-  padding: 0.875rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Individual Task Card */
+.task {
+  background-color: var(--task-color);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.08); /* Lifted appearance */
+  cursor: grab;
   position: relative;
   min-height: var(--task-size);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
-.task {
-  cursor: move;
-  transition: 0.3s;
+.task:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .task.dragging {
-  cursor: default;
-  box-shadow: none;
+  cursor: grabbing;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   background-color: var(--secondary-color);
-  opacity: 1;
+  opacity: 0.6;
+  transform: scale(1.05);
 }
 
 .task.dragging * {
   visibility: hidden;
 }
 
-.task:not(.dragging):hover {
-  background-color: var(--task-color);
+/* Task Rich Content Display */
+.task-content-text {
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
 }
 
+.task-date {
+  font-size: 0.8rem;
+  color: #64748b; /* Slate-500 */
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Task Action Menu */
 .task menu {
-  margin-top: 0.875rem;
+  margin-top: 0.5rem;
   display: flex;
   justify-content: flex-end;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .task button {
   width: 1.5rem;
   height: 1.5rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
+  color: #64748b; /* Slate-500 */
+}
+
+.task button:hover {
   color: var(--primary-color);
 }
 
-.task-input {
-  outline: none;
-  overflow-wrap: anywhere;
-  padding-left: 2.5rem;
-}
+/* --- MODAL STYLES (Task Details Modal) --- */
 
-.task-input::before {
-  content: "\F392";
-  font-family: "bootstrap-icons";
-  position: absolute;
-  left: 0.875rem;
+.task-modal,
+.confirm-modal {
+  position: fixed;
   top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.5;
-}
-
-.task-input:empty::after {
-  content: attr(data-placeholder);
-  opacity: 0.5;
-}
-
-.confirm-model[open] {
-  opacity: 1;
-  transform: translate(-50%, -50%) translateY(0);
-}
-
-.confirm-model {
-  opacity: 0;
-  transform: translate(-50%, -50%) translateY(50px);
   left: 50%;
-  top: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
   border: none;
-  border-radius: 0.25rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s allow-discrete;
+  border-radius: var(--radius);
+  padding: 0;
+  width: min(500px, 90%);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-.confirm-model[open]::backdrop {
-  background: rgba(0, 0, 0, 0.25);
+.task-modal[open],
+.confirm-modal[open] {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
-.confirm-model::backdrop {
+.task-modal[open]::backdrop,
+.confirm-modal[open]::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease-in-out;
+}
+
+.task-modal::backdrop,
+.confirm-modal::backdrop {
   background: rgba(0, 0, 0, 0);
-  transition: all 0.3s allow-discrete;
+  transition: all 0.3s ease-in-out;
 }
 
-@starting-style {
-  .confirm-model[open] {
-    opacity: 0;
-    transform: translate(-50%, -50%) translateY(50px);
-  }
-
-  .confirm-model::backdrop {
-    background: rgba(0, 0, 0, 0);
-  }
+.task-modal form {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.confirm-model form {
+.task-modal h3 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.task-modal input[type="text"],
+.task-modal input[type="date"],
+.task-modal textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  transition: border-color 0.2s;
+}
+
+.task-modal input:focus,
+.task-modal textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+.task-modal textarea {
+  resize: vertical;
+}
+
+.task-modal menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* Modal Buttons */
+.task-modal button {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#modal-cancel {
+  background-color: var(--cancel-color);
+  color: var(--text-color);
+  border: 1px solid var(--secondary-color);
+}
+
+#modal-save {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* --- Delete Confirmation Modal (confirm-modal) --- */
+
+/* Fix the typo from confirm-model to confirm-modal */
+.confirm-modal {
+  width: min(400px, 90%);
+}
+
+.confirm-modal form {
   padding: 2rem;
 }
 
-.confirm-model form > *:not(:last-child) {
+.confirm-modal form > *:not(:last-child) {
   margin-bottom: 1rem;
 }
 
-.confirm-model h3 {
-  font-size: 1.5rem;
+.confirm-modal h3 {
+  font-size: 1.25rem;
+  color: var(--confirm-color);
 }
 
-.confirm-model div.preview {
-  font-size: 0.875rem;
-  padding-left: 0.5rem;
-  border-left: 2px solid var(--secondary-color);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
+.confirm-modal p {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.confirm-modal div.preview {
+  font-size: 1rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--primary-color);
+  display: block;
   overflow: hidden;
-  opacity: 0.75;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0.9;
+  font-weight: 600;
 }
 
-.confirm-model menu {
+.confirm-modal menu {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
 }
 
-.confirm-model button {
+.confirm-modal button {
   opacity: 1;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  border: 1px solid transparent;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  font-weight: 600;
   box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
-.confirm-model button#cancel {
-  border-color: var(--cancel-color);
+#confirm-cancel {
+  background-color: var(--cancel-color);
+  color: var(--text-color);
 }
 
-.confirm-model button#confirm {
-  border-color: var(--confirm-color);
+#confirm-delete {
   background-color: var(--confirm-color);
   color: #fff;
 }
 
-.confirm-model button#confirm:hover {
-  border-color: var(--confirm-hover-color);
+#confirm-delete:hover {
   background-color: var(--confirm-hover-color);
-  color: #fff;
+}
+
+/* Old styles cleanup (task-input is no longer used) */
+.task-input {
+  display: none;
 }

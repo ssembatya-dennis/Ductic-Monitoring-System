@@ -1,51 +1,43 @@
 /**
  * @file Task.js
- * @description - The task.js file creates both the Task element container and the Task
- * Input element container dynamically
+ * @description - Creates the Task element dynamically from a task object.
  */
 
 import Util from "../Util/Util.js";
 
 export default class Task {
   /**
-   * Creates a task container with a task content container, and two action buttons to
-   * delete and edit contents of the task
-   * @param {Text} content
+   * Creates a task card element from a task object.
+   * @param {Object} task - The task object from the API.
    * @returns {HTMLElement} - task div container
    */
-  static createTask = (content) => {
-    const task = document.createElement("div");
-    task.className = "task";
-    task.draggable = true;
+  static createTask = (task) => {
+    const taskElement = document.createElement("div");
+    taskElement.className = "task";
+    taskElement.draggable = true;
+    taskElement.dataset.taskId = task.id; // CRUCIAL: Link DOM to data ID
 
-    task.innerHTML = `
-        <div class="task-content-text">${content}</div>
-        <menu>
-            <button data-edit><i class="bi bi-pencil-square"></i></button>
-            <button data-delete><i class="bi bi-trash"></i></button>
-        </menu>
+    // Render title and due date if present
+    const dueDateEl = task.dueDate
+      ? `<div class="task-date"><i class="bi bi-calendar-event"></i> ${task.dueDate}</div>`
+      : "";
+
+    taskElement.innerHTML = `
+      <div class="task-content">
+        <div class="task-content-text">${task.title}</div>
+        ${dueDateEl}
+      </div>
+      <menu>
+        <button data-action="edit"><i class="bi bi-pencil-square"></i></button>
+        <button data-action="delete"><i class="bi bi-trash"></i></button>
+      </menu>
     `;
 
-    task.addEventListener("dragstart", Util.handleDragstart);
-    task.addEventListener("dragend", Util.handleDragend);
+    taskElement.addEventListener("dragstart", Util.handleDragstart);
+    taskElement.addEventListener("dragend", Util.handleDragend);
 
-    return task;
+    return taskElement;
   };
 
-  /**
-   * Creates the Task Input div element with data-placeholder attribute and content-editable
-   * attribute set to true
-   * @param {Text} text
-   * @returns {HTMLDivElement} - Task Input container
-   */
-  static createTaskInput = (text = "") => {
-    const input = document.createElement("div");
-    input.className = "task-input";
-    input.dataset.placeholder = "Task name";
-    input.contentEditable = true;
-    input.innerText = text;
-    input.addEventListener("blur", Util.handleOnBlur);
-
-    return input;
-  };
+  // NOTE: createTaskInput and any contentEditable related logic must be REMOVED.
 }

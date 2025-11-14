@@ -1,59 +1,65 @@
 /**
  * @file KanbanView.js
- * @description - The KanbanView.js file is responsible for binding DOM elements with their
- * respective handlers
+ * @description - Manages all DOM selection and event attachment.
  */
 
 export default class KanbanView {
   constructor() {
-    // important DOM nodes
+    // Column/Container Selectors
     this.allTasksElementsContainer = document.querySelectorAll(".tasks");
-    this.modalWindow = document.querySelector(".confirm-model");
     this.columnsContainer = document.querySelector(".columns");
     this.columns = document.querySelectorAll(".column");
-    this.columnLastElement = document.querySelector(".column").lastElementChild;
-    this.columns = document.querySelectorAll(".column");
-    this.previewTextElement = document.querySelector(".preview");
-    this.tasksContainer = document.querySelector(".tasks");
-    this.draggedTask = document.querySelector(".dragging");
 
-    // buttons
-    this.cancelButton = document.querySelector("#cancel");
+    // Task Action Selectors (for add/edit/delete buttons)
+    this.taskActionButtonsContainer = document.querySelector(".columns");
+
+    // Delete Modal Selectors (Renamed .confirm-modal)
+    this.deleteModal = document.querySelector(".confirm-modal");
+    this.previewTextElement = this.deleteModal.querySelector(".preview");
+    this.cancelDeleteButton = document.querySelector("#confirm-cancel");
+
+    // NEW Task Modal Selectors
+    this.taskModal = document.querySelector(".task-modal");
+    this.taskForm = document.querySelector("#task-form");
+    this.modalTitle = document.querySelector("#modal-title");
+    this.modalCancelButton = document.querySelector("#modal-cancel");
   }
 
-  //////////////// Modal window button Event Listeners
+  // --- Event Attachments ---
 
-  onConfirmDeleteButtonClick = (handler) => {
-    // confirm deletion
-    this.modalWindow.addEventListener("submit", handler);
-  };
-
-  onCancelButtonClick = (handler) => {
-    // cancel deletion
-    this.cancelButton.addEventListener("click", handler);
-  };
-
-  // clear current task
-  onModalWindowClose = (handler) => {
-    this.modalWindow.addEventListener("close", handler);
-  };
-
-  // Tasks card EventListeners
-
+  // General click handler for Add/Edit/Delete buttons
   onTaskActionButtonsClick = (handler) => {
-    this.columnsContainer.addEventListener("click", handler);
+    this.taskActionButtonsContainer.addEventListener("click", handler);
   };
 
-  ////// task dragging over and drop
+  // Modal Handlers
+  onTaskFormSubmit = (handler) => {
+    this.taskForm.addEventListener("submit", handler);
+  };
+
+  onModalCancelClick = (handler) => {
+    this.modalCancelButton.addEventListener("click", handler);
+  };
+
+  // Drag and Drop Handlers
   onTaskDragOver = (handler) => {
-    for (const taskElement of this.allTasksElementsContainer) {
-      taskElement.addEventListener("dragover", handler);
-    }
+    this.columnsContainer.addEventListener("dragover", handler);
   };
 
   onTaskDrop = (handler) => {
-    for (const taskElement of this.allTasksElementsContainer) {
-      taskElement.addEventListener("drop", handler);
-    }
+    this.columnsContainer.addEventListener("drop", handler);
+  };
+
+  // Delete Modal Handlers
+  onConfirmDeleteButtonClick = (handler) => {
+    this.deleteModal.addEventListener("submit", handler);
+  };
+
+  onCancelDeleteButtonClick = (handler) => {
+    this.cancelDeleteButton.addEventListener("click", handler);
+  };
+
+  onDeleteModalClose = (handler) => {
+    this.deleteModal.addEventListener("close", handler);
   };
 }

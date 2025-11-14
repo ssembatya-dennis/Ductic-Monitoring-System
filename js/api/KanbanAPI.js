@@ -1,32 +1,66 @@
 /**
  * @file KanbanAPI.js
- * @description - This module provides an API to interact with the browser's
- * localStorage for persisting Kanban board tasks.
+ * @description - Manages a single array of rich task objects in localStorage.
  */
 
 export default class KanbanAPI {
   /**
-   * Retrieves all tasks for a specific column from localStorage.
-   * @param {string} columnId - The ID of the column (e.g., "todo", "inprogress").
-   * @returns {string[]} - An array of task content strings.
+   * Retrieves all task objects from localStorage.
+   * @returns {Object[]} - An array of task objects.
    */
-  static getTasks(columnId) {
-    // Attempt to get the tasks for the given column
-    const columnTasks = localStorage.getItem(`kanban-tasks-${columnId}`);
+  static getTasks() {
+    const tasks = localStorage.getItem("kanban-tasks");
+    return tasks ? JSON.parse(tasks) : [];
+  }
 
-    if (!columnTasks) {
-      return [];
-    }
-
-    return JSON.parse(columnTasks);
+  static #saveAllTasks(tasks) {
+    localStorage.setItem("kanban-tasks", JSON.stringify(tasks));
   }
 
   /**
-   * Saves an array of task content strings for a specific column.
-   * @param {string} columnId - The ID of the column to save to.
-   * @param {string[]} tasks - An array of task content strings to save.
+   * Saves a single task object. Updates an existing task or adds a new one.
+   * @param {Object} taskToSave - The task object. Must have a 'column' property.
    */
-  static saveTasks(columnId, tasks) {
-    localStorage.setItem(`kanban-tasks-${columnId}`, JSON.stringify(tasks));
+  static saveTask(taskToSave) {
+    const tasks = KanbanAPI.getTasks();
+
+    if (!taskToSave.id) {
+      // 1. New Task: Generate ID
+      taskToSave.id = Math.floor(Math.random() * 1000000).toString();
+      tasks.push(taskToSave);
+    } else {
+      // 2. Existing Task: Replace the old object
+      const index = tasks.findIndex((task) => task.id === taskToSave.id);
+      if (index !== -1) {
+        tasks[index] = taskToSave;
+      }
+    }
+    KanbanAPI.#saveAllTasks(tasks);
+    return taskToSave; // Return the saved task object (with the new ID if new)
+  }
+
+  /**
+   * Updates a task's column ID for drag-and-drop.
+   * @param {string} taskId - ID of the task to move.
+   * @param {string} newColumnId - ID of the destination column.
+   */
+  static moveTask(taskId, newColumnId) {
+    const tasks = KanbanAPI.getTasks();
+    const taskToMove = tasks.find((task) => task.id === taskId);
+
+    if (taskToMove) {
+      taskToMove.column = newColumnId;
+      KanbanAPI.#saveAllTasks(tasks);
+    }
+  }
+
+  /**
+   * Deletes a task by ID.
+   * @param {string} taskId - The ID of the task to delete.
+   */
+  static deleteTask(taskId) {
+    const tasks = KanbanAPI.getTasks();
+    const updatedTasks = tasks.filter((task) => task.id !== taskId);
+    KanbanAPI.#saveAllTasks(updatedTasks);
   }
 }
