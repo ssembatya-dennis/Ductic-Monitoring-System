@@ -171,6 +171,14 @@ button:is(:active, :hover) {
   font-weight: 600;
   line-height: 1.4;
   margin-bottom: 0.5rem;
+  word-break: break-word;
+
+  /* --- CRITICAL TRUNCATION STYLES --- */
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Limit to 1 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .task-date {
