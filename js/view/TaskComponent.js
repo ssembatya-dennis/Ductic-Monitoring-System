@@ -4,8 +4,6 @@
  * Ticket element card.
  */
 
-import DragDropHandler from "../utils/DragDropHandler.js";
-
 export default class TaskComponent {
   /**
    * Creates the HTML element for a task card Element.
@@ -36,13 +34,15 @@ export default class TaskComponent {
     `;
 
     // Handle drag start
-    taskElementContainer.addEventListener("dragstart", () => {
-      DragDropHandler.handleDragStart(taskElementContainer, task.id);
+    taskElementContainer.addEventListener("dragstart", (event) => {
+      event.dataTransfer.setData("text/plain", task.id);
+
+      taskElementContainer.classList.add("dragging");
     });
 
     // Handle drag end
     taskElementContainer.addEventListener("dragend", () => {
-      DragDropHandler.handleDragEnd(taskElementContainer);
+      taskElementContainer.classList.remove("dragging");
     });
 
     return taskElementContainer;
