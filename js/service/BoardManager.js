@@ -1,16 +1,17 @@
 /**
- * @file KanbanController.js
- * @description - The central controller managing state flow and user interactions.
+ * @file BoardManager.js
+ * @description - The central service responsible for managing application state, directing flow
+ * between the View (DOM) and the DataService (Persistence), and handling user events.
  */
 
-import Task from "../view/Task.js";
-import Util from "../Util/Util.js";
-import KanbanAPI from "../api/KanbanAPI.js";
+import TaskComponent from "../view/TaskComponent.js";
+import DragDropUtil from "../utils/DragDropUtil.js";
+import DataService from "../data/DataService.js";
 
-export default class KanbanController {
+export default class BoardManager {
   constructor(view) {
     this.view = view;
-    this.currentTaskId = null; // Store ID for delete modal
+    this.currentTaskId = null; // Stores ID for delete modal context
 
     this.setupEventListeners();
   }
@@ -33,27 +34,50 @@ export default class KanbanController {
     this.view.onTaskDrop(this.handleDrop);
   }
 
-  init() {
-    // The application always starts by rendering the current state from the API
-    this.renderTasks();
+  /**
+   * Application initializer. Loads the initial state.
+   * NOTE: This will be replaced by a Firestore real-time listener next.
+   */
+  async init() {
+    await this.renderTasks();
   }
 
-  // --- Rendering and Utilities ---
+  // --- Rendering Functions (Modularized) ---
 
   /**
-   * Clears DOM, loads all tasks from API, and renders the board.
+   * Clears the DOM and populates the board with tasks from the DataService.
    */
-  renderTasks() {
-    const allTasks = KanbanAPI.getTasks();
+  async renderTasks() {
+    // 1. Fetch tasks and sort by creation time (descending)
+    const allTasks = await DataService.getTasks();
 
-    // 1. Clear all existing task elements from the DOM
+    // 2. Clear all task elements from the DOM
+    this.clearAllTasksFromDOM();
+
+    // 3. Render tasks to their respective columns
+    this.populateColumns(allTasks);
+
+    // 4. Update task counts display
+    this.updateAllTaskCounts(allTasks);
+  }
+
+  /**
+   * Helper to clear all task containers.
+   */
+  clearAllTasksFromDOM() {
     for (const tasksContainer of this.view.allTasksElementsContainer) {
       tasksContainer.innerHTML = "";
     }
+  }
 
-    // 2. Create and append task elements to the correct columns
-    for (const task of allTasks) {
-      const taskElement = Task.createTask(task);
+  /**
+   * Helper to render tasks into the DOM.
+   * @param {Array<object>} tasks - List of task objects to render.
+   */
+  populateColumns(tasks) {
+    for (const task of tasks) {
+      // FIX: Use the new descriptive method name
+      const taskElement = TaskComponent.createTaskElement(task);
       const columnElement = document.querySelector(
         `[data-column-id="${task.column}"]`
       );
@@ -62,16 +86,13 @@ export default class KanbanController {
         columnElement.querySelector(".tasks").appendChild(taskElement);
       }
     }
-
-    // 3. Update task counts
-    this.updateAllTaskCounts();
   }
 
   /**
-   * Updates the task count for all columns based on the API data.
+   * Updates the task count for all columns.
+   * @param {Array<object>} tasks - List of all tasks.
    */
-  updateAllTaskCounts() {
-    const tasks = KanbanAPI.getTasks();
+  updateAllTaskCounts(tasks) {
     const counts = { todo: 0, inprogress: 0, done: 0 };
 
     for (const task of tasks) {
@@ -87,7 +108,7 @@ export default class KanbanController {
     }
   }
 
-  // --- Modal Handlers (Add/Edit/Save) ---
+  // --- Event Handlers (Async Ready) ---
 
   handleTaskActionButtonClick = (event) => {
     const button = event.target.closest("button[data-action]");
@@ -99,7 +120,6 @@ export default class KanbanController {
     let taskId = taskElement ? taskElement.dataset.taskId : null;
 
     if (action === "add") {
-      // Must pass the column ID where the '+' was clicked
       this.openTaskModal(null, column.dataset.columnId);
     } else if (action === "edit") {
       this.openTaskModal(taskId);
@@ -109,84 +129,77 @@ export default class KanbanController {
     }
   };
 
-  openTaskModal(taskId, columnId = null) {
+  async openTaskModal(taskId, columnId = null) {
     const form = this.view.taskForm;
     form.reset();
-
-    // CRITICAL FIX: Explicitly clear the hidden ID field for new tasks
-    form.querySelector('input[name="id"]').value = "";
+    form.querySelector('input[name="id"]').value = ""; // Clear ID for safety
 
     if (taskId) {
-      // EDIT MODE
+      // EDIT MODE: Needs to wait for the task data to be fetched
       this.view.modalTitle.innerText = "Edit Task";
-      const task = KanbanAPI.getTasks().find((t) => t.id === taskId);
+      const task = await DataService.getTaskById(taskId); // New method needed in DataService
+
       if (task) {
-        // Populate fields from task object
+        // Populate fields
         form.querySelector('input[name="id"]').value = task.id;
         form.querySelector('input[name="title"]').value = task.title;
         form.querySelector('textarea[name="description"]').value =
           task.description;
         form.querySelector('input[name="dueDate"]').value = task.dueDate;
-        // Ensure the correct column is retained for saving edits
         form.querySelector('input[name="column"]').value = task.column;
       }
     } else {
       // ADD MODE
       this.view.modalTitle.innerText = "Add New Task";
-      // Set the target column ID for the new task
       form.querySelector('input[name="column"]').value = columnId;
     }
 
     this.view.taskModal.showModal();
   }
 
-  handleTaskFormSubmit = (event) => {
+  handleTaskFormSubmit = async (event) => {
     event.preventDefault();
 
     const formData = new FormData(this.view.taskForm);
     const taskData = Object.fromEntries(formData.entries());
 
-    // Before saving, ensure all inputs are strings (especially the due date)
-    // and handle potential empty string inputs gracefully.
+    // Ensure title is present (Validation will be added later, but basic check is good)
+    if (!taskData.title || taskData.title.trim() === "") {
+      console.error("Task title cannot be empty.");
+      // TODO: Replace with a clean modal message later
+      return;
+    }
+
+    // Prepare data for saving
     taskData.description = taskData.description || "";
     taskData.dueDate = taskData.dueDate || "";
 
-    KanbanAPI.saveTask(taskData);
+    // AWAIT the saving operation (crucial for Firestore)
+    await DataService.saveTask(taskData);
 
-    this.renderTasks();
-    this.view.taskModal.close();
-  };
-
-  handleModalCancel = () => {
+    await this.renderTasks(); // Re-render after successful save
     this.view.taskModal.close();
   };
 
   // --- Delete Modal Handlers ---
 
-  openDeleteModal() {
-    const task = KanbanAPI.getTasks().find((t) => t.id === this.currentTaskId);
-    // Display the title of the task being deleted in the modal preview
+  async openDeleteModal() {
+    const task = await DataService.getTaskById(this.currentTaskId);
     this.view.previewTextElement.innerText = task ? task.title : "this task";
     this.view.deleteModal.showModal();
   }
 
-  handleConfirmDelete = () => {
+  handleConfirmDelete = async () => {
     if (this.currentTaskId) {
-      KanbanAPI.deleteTask(this.currentTaskId);
-      // Re-render the entire board to show the task removed and update counts
-      this.renderTasks();
+      // AWAIT the deletion
+      await DataService.deleteTask(this.currentTaskId);
+      await this.renderTasks();
     }
     this.currentTaskId = null;
     this.view.deleteModal.close();
   };
 
-  handleCancelDelete = () => {
-    this.view.deleteModal.close();
-  };
-
-  handleDeleteModalClose = () => {
-    this.currentTaskId = null; // Clear state on modal close
-  };
+  // (Cancel and Close handlers remain synchronous)
 
   // --- Drag and Drop Handlers ---
 
@@ -198,17 +211,18 @@ export default class KanbanController {
     if (!draggedTask || !target || target === draggedTask) return;
 
     if (target.classList.contains("tasks")) {
-      Util.dragOverContainer(event, draggedTask, target);
+      DragDropUtil.dragOverContainer(event, draggedTask, target);
     }
     if (target.classList.contains("task")) {
-      Util.dragOverTask(event, draggedTask, target);
+      DragDropUtil.dragOverTask(event, draggedTask, target);
     }
   };
 
-  handleDrop = (event) => {
+  handleDrop = async (event) => {
     event.preventDefault();
 
-    const taskId = Util.CURRENT_TASK_ID;
+    // CRITICAL UPDATE: Read the task ID from the event's dataTransfer object
+    const taskId = event.dataTransfer.getData("text/plain");
     if (!taskId) return;
 
     const dropZone = event.target.closest(".column");
@@ -216,8 +230,8 @@ export default class KanbanController {
 
     const newColumnId = dropZone.dataset.columnId;
 
-    // Update the column in the API, then re-render the board
-    KanbanAPI.moveTask(taskId, newColumnId);
-    this.renderTasks();
+    // AWAIT the update
+    await DataService.moveTask(taskId, newColumnId);
+    await this.renderTasks();
   };
 }
